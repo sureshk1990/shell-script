@@ -30,7 +30,7 @@ echo -e "word1\tword2"
 # Green   32
 # Yellow  33
 # Blue    34
-# Naganta 35
+# Magenta 35
 # Cyan    36
 
 
