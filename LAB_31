@@ -1,0 +1,41 @@
+#!/usr/bin/bash
+echo -e "\e[31mHello World\e[0m"
+echo -e "\e[33mHellow World \e[0m"
+echo -e "\e[35mHellow World"
+echo  sample
+
+echo -e "\e[1;32mHellow World \e[0m"
+
+echo color test
+
+echo -e "Normal \e[1mBold"
+
+echo -e "Normal \e[2mDim"
+
+echo -e "Normal \e[4mUnderlined"
+
+
+echo -e "Normal \e[5mBlink \e[0m"
+
+echo -e "Normal \e[5mBlink"
+
+echo -e "Normal \e[5mSuresh"
+
+echo -e "Color testing \e[2;4;33mSuresh"
+
+echo -e "Suresh \e[41;4mKAKARLA \e[0m"
+
+echo -e "Suresh \e[41;36;4mKAKARLA \e[0m"
+echo test
+
+
+
+
+
+
+
+
+
+
+
+
