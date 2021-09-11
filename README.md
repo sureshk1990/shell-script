@@ -1,22 +1,30 @@
-In shell, we have mulitiple shells, out os that we are going with BASH
+In Shell, We have multiple shells , Out of that we are going with BASH.
 
-BASH = sh + ksh + csh ( on server side BASh IS DEFAULT)
-ZSH (TOO MUCH MODERN, BUT MOST ON DESKTOP ENV, NOT ON SERVER)
+BASH = SH + KSH + CSH (On server side BASH is default)
+ZSH (Too much modern, But most on Desktop env, Not on server)
 
-Topics we are going to discuss in shell
+Topics we are going to discuss in shell 
 
-1. She-bang * comments
-2. print messages on screen
-3. variables
-4. Take inputs
+1. She-Bang & Comments
+2. Print Messages on Screen 
+3. Variables 
+4. Take Inputs 
 5. Functions
-6. Redirectors, Quotes and exist status
+6. Redirectors, Quotes, Exit States
 7. Conditions
 8. Loops
 
 
-#!   --> is called as she-bang, it demotes path of interpeter , also ensure the code that is present in the file 
-excute with interpeter. It has to be in the very first line.
+```
+#! is called as She-bang , It denotes path of interpreter. Also ensures the code that is present in the file executes with that interpreter. It has to be in the very first line
 
+```
 
-# --> Any line start with '#' is treated as comment and it will ignore by the interpreter 
+## RoboShop Project
+
+1. Keep all components in one script 
+        Problem: We need to run only one component in one server
+2. Make Individual scripts for each component 
+        Problem: Making inividual may not make the code DRY(Dont repeat Yourself)
+
+Solution: Use single script, But call individual script on provided input
