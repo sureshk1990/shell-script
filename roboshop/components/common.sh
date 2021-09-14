@@ -5,6 +5,7 @@ Status_Check() {
     echo -e "\e[32mSUCCESS\e[0m"
   else 
     echo -e "\e[31mFAILURE\e[0m"
+    echo -e "\e[33m Refer Log file : $LOG for more information\e[0m"
     exit 2
   fi 
 }
@@ -45,7 +46,7 @@ DOWNLOAD() {
 
 SystemdD_Setup() {
   Print "Update SystemD Service\t"
-  sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.internal/' -e 's/REDIS_ENDPOINT/redis.roboshop.internal/' -e  's/MONGO_ENDPOINT/mongodb.roboshop.internal/' -e 's/CATALOGUE_ENDPOINT/catalogue.roboshop.internal/' /home/roboshop/${COMPONENT}/systemd.service
+  sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.internal/' -e 's/REDIS_ENDPOINT/redis.roboshop.internal/' -e  's/MONGO_ENDPOINT/mongodb.roboshop.internal/' -e 's/CATALOGUE_ENDPOINT/catalogue.roboshop.internal/' -e 's/CARTENDPOINT/cart.roboshop.internal/' -e 's/DBHOST/mysql.roboshop.internal/' -e 's/CARTHOST/cart.roboshop.internal/' -e 's/USERHOST/user.roboshop.internal/' -e 's/AMQPHOST/rabbitmq.roboshop.internal/'  /home/roboshop/${COMPONENT}/systemd.service
   Status_Check $?
 
   Print "Setup SystemD Service\t"
@@ -64,5 +65,46 @@ NODEJS() {
   npm install --unsafe-perm &>>$LOG
   Status_Check $?
   chown roboshop:roboshop -R /home/roboshop
+  SystemdD_Setup
+}
+
+JAVA() {
+  Print "Installing Maven\t"
+  yum install maven -y &>>$LOG
+  Status_Check $?
+  ADD_APP_USER
+  DOWNLOAD
+  cd /home/roboshop/shipping
+  Print "Make Shipping Package\t"
+  mvn clean package &>>$LOG
+  Status_Check $?
+  Print "Rename Shipping Package"
+  mv target/shipping-1.0.jar shipping.jar &>>$LOG
+  Status_Check $?
+  chown roboshop:roboshop -R /home/roboshop
+  SystemdD_Setup
+}
+
+PYTHON() {
+  Print "Install Python3\t\t"
+  yum install python36 gcc python3-devel -y &>>$LOG
+  Status_Check $?
+
+  ADD_APP_USER
+
+  DOWNLOAD
+
+  cd /home/roboshop/payment
+  Print "Install Python Dependencies"
+  pip3 install -r requirements.txt &>>$LOG
+  Status_Check $?
+
+  USERID=$(id -u roboshop)
+  GROUPID=$(id -g roboshop)
+
+  Print "Update RoboShop User in Config"
+  sed -i -e "/uid/ c uid=${USERID}" -e "/gid/ c gid=${GROUPID}"  /home/roboshop/payment/payment.ini &>>$LOG
+  Status_Check $?
+
   SystemdD_Setup
 }

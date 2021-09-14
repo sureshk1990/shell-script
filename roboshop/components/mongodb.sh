@@ -36,8 +36,9 @@ Status_Check $?
 
 cd mongodb-main
 Print "Loading Schema\t\t"
-mongo < catalogue.js &>>$LOG 
-mongo < users.js  &>>$LOG 
+for schema in catalogue users ; do
+  mongo < $schema.js &>>$LOG
+done
 Status_Check $?
 
 exit 0
